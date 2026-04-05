@@ -59,6 +59,13 @@ void terminal_setcolor(uint8_t color)
 	terminal_color = color;
 }
 
+// Made because the default terminal_putentryat won't support the proper cursor position setting for backspaces
+void _put_backspace(uint8_t color, size_t x, size_t y) {
+	const size_t index = y * VGA_WIDTH + x;
+	_cursor_setpos(index);
+	terminal_buffer[index] = vga_entry(' ', color);
+}
+
 void terminal_putentryat(char c, uint8_t color, size_t x, size_t y) 
 {
 	const size_t index = y * VGA_WIDTH + x;
@@ -78,11 +85,11 @@ void terminal_putchar(char c)
 	if (c == '\b' || c == 0x7F) {
 		if (terminal_column > 0) {
 			terminal_column--;
-			terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
+			_put_backspace(terminal_color, terminal_column, terminal_row);
 		} else if (terminal_row > 0) {
 			terminal_row--;
 			terminal_column = VGA_WIDTH - 1;
-			terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
+			_put_backspace(terminal_color, terminal_column, terminal_row);
 		}
 		return;
 	}
