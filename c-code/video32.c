@@ -39,6 +39,7 @@ void terminal_initialize(void)
 			terminal_buffer[index] = vga_entry(' ', terminal_color);
 		}
 	}
+	_cursor_setpos(_calculate_vga_cursor_pos(terminal_row, terminal_column));
 }
 
 void terminal_scroll(void) {
@@ -79,6 +80,7 @@ void terminal_putchar(char c)
 		terminal_column = 0;
 		if (++terminal_row == VGA_HEIGHT)
 			terminal_scroll();
+		_cursor_setpos(_calculate_vga_cursor_pos(terminal_row, terminal_column)-2);
 		return;
 	}
 
@@ -103,10 +105,11 @@ void terminal_putchar(char c)
 	}
 }
 
-void terminal_write(const char* data, size_t size) 
+int terminal_write(const char* data, size_t size) 
 {
 	for (size_t i = 0; i < size; i++)
 		terminal_putchar(data[i]);
+	return 0;
 }
 
 void terminal_writestring(const char* data) 

@@ -14,7 +14,7 @@ CFLAGS := -m32 -march=i386 -ffreestanding -fno-builtin -fno-stack-protector -fno
 ASFLAGS := -m32 -c
 LDFLAGS := -m elf_i386 -T $(ROOT)/scripts/linker.ld
 
-C_SRCS := $(SRCDIR)/kernel.c $(SRCDIR)/stdin.c $(SRCDIR)/video32.c $(SRCDIR)/interrupt.c
+C_SRCS := $(SRCDIR)/kernel.c $(SRCDIR)/stdin.c $(SRCDIR)/video32.c $(SRCDIR)/interrupt.c $(SRCDIR)/syscall.c
 ASM_SRCS := $(ASMDIR)/boot.s $(ASMDIR)/intreg.s
 
 C_OBJS := $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(C_SRCS))

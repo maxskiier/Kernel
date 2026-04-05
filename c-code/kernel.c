@@ -6,6 +6,7 @@
 #include "portio.h"
 #include "pic.h"
 #include "interrupt.h"
+#include "systypes.h"
 
 size_t strlen(const char* str) 
 {
@@ -28,6 +29,9 @@ extern void terminal_putchar(char c);
 extern void terminal_write(const char* data, size_t size);
 extern void terminal_writestring(const char* data);
 
+extern ssize_t read(int fd, void *addr, size_t count);
+extern ssize_t write(int fd, void *addr, size_t count);
+
 extern void _stdin_init(void);
 extern bool _stdin_has_char(void);
 extern char _stdin_getch(void);
@@ -44,12 +48,12 @@ void __attribute__((noreturn)) kernel_main(void)
 	_stdin_init();
 	__asm__ volatile ("sti");
 	
-	getch();
-	terminal_writestring("\nCongratulations, you've typed a char. Now type a string.\n");
+	// Test of the write syscall
+	write(FD_STDOUT, "\nCongratulations, you've booted the machine. Now type a string.\n", sizeof(char[65]));
 	char tmpbuf[256];
 	
     while (1) {
-        readline(tmpbuf, sizeof(tmpbuf));
-		terminal_writestring(tmpbuf); // Let the user type whatever they want, we don't need to do anything else right now
+        read(FD_STDIN, tmpbuf, sizeof(tmpbuf));
+		write(FD_STDOUT, tmpbuf, strlen(tmpbuf)); // Let the user type whatever they want, we don't need to do anything else right now
     }
 }
