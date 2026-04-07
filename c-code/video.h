@@ -35,9 +35,7 @@ enum vga_color {
 	VGA_COLOR_WHITE = 15,
 };
 
-inline __attribute__((always_inline)) uint16_t _calculate_vga_cursor_pos(uint8_t row, uint8_t column) {
-	return (row*80)+column;
-}
+#define _CALCULATE_CURSOR_POS(row, col) (row*80)+col
 
 static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) 
 {

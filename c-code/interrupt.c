@@ -1,4 +1,5 @@
 #include "interrupt.h"
+#include "panic.h"
 
 static idt_descriptor_t idt_descriptor;
 static idt_entry_t idt[256];

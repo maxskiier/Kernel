@@ -14,7 +14,7 @@ CFLAGS := -m32 -march=i386 -ffreestanding -fno-builtin -fno-stack-protector -fno
 ASFLAGS := -m32 -c
 LDFLAGS := -m elf_i386 -T $(ROOT)/scripts/linker.ld
 
-C_SRCS := $(SRCDIR)/kernel.c $(SRCDIR)/stdin.c $(SRCDIR)/video32.c $(SRCDIR)/interrupt.c $(SRCDIR)/syscall.c
+C_SRCS := $(SRCDIR)/kernel.c $(SRCDIR)/stdin.c $(SRCDIR)/video32.c $(SRCDIR)/interrupt.c $(SRCDIR)/syscall.c $(SRCDIR)/panic.c
 ASM_SRCS := $(ASMDIR)/boot.s $(ASMDIR)/intreg.s
 
 C_OBJS := $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(C_SRCS))
@@ -28,16 +28,16 @@ debug: CFLAGS += -g
 debug: ASFLAGS += -g
 debug: $(OUT)
 
-$(OUT): | $(BUILDDIR) $(OBJS)
+$(OUT): $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $(OBJS)
 
 $(BUILDDIR):
 	mkdir -p $@
 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.c
+$(BUILDDIR)/%.o: $(SRCDIR)/%.c | $(BUILDDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(BUILDDIR)/%.o: $(ASMDIR)/%.s
+$(BUILDDIR)/%.o: $(ASMDIR)/%.s | $(BUILDDIR)
 	$(CC) $(ASFLAGS) $< -o $@
 
 install: all | $(ISO_BOOT_DIR)

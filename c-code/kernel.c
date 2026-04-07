@@ -7,36 +7,11 @@
 #include "pic.h"
 #include "interrupt.h"
 #include "systypes.h"
+#include "video.h"
+#include "keyboard.h"
+#include "syscall.h"
 
-size_t strlen(const char* str) 
-{
-	size_t len = 0;
-	while (str[len])
-		len++;
-	return len;
-}
 
-extern size_t terminal_row;
-extern size_t terminal_column;
-extern uint8_t terminal_color;
-extern volatile uint16_t* terminal_buffer;
-
-extern void terminal_initialize(void);
-extern void terminal_scroll(void);
-extern void terminal_setcolor(uint8_t color);
-extern void terminal_putentryat(char c, uint8_t color, size_t x, size_t y);
-extern void terminal_putchar(char c);
-extern void terminal_write(const char* data, size_t size);
-extern void terminal_writestring(const char* data);
-
-extern ssize_t read(int fd, void *addr, size_t count);
-extern ssize_t write(int fd, void *addr, size_t count);
-
-extern void _stdin_init(void);
-extern bool _stdin_has_char(void);
-extern char _stdin_getch(void);
-extern int getch(void);
-extern char* readline(char* buf, size_t max);
 
 void __attribute__((noreturn)) kernel_main(void) 
 {

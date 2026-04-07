@@ -40,4 +40,6 @@ int getch(void);
  * Returns number of chars read (excluding null terminator), or -1 on error. */
 int readline(char* buf, size_t max);
 
+size_t strlen(const char* str);
+
 #endif /* KEYBOARD_H */
