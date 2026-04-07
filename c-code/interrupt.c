@@ -27,7 +27,7 @@ void sysint(uint32_t vector, uint32_t err) {
         interrupt_frame_t frame = { .vector = vector, .error_code = err };
         isr_handlers[vector](&frame);
     } else {
-        /* no handler registered, panic */
+        panic("An interrupt without a handler was called.\n");
     }
 
     if (vector >= 0x20 && vector <= 0x2F) {

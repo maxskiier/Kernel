@@ -1,4 +1,4 @@
-## Unstable Branch
-This branch contains all the most recent bugfixes and additions to the kernel project.  
-To request merges into the main branch, please make a pull request.  
+## Untested Branch
+This branch contains untested code. Use with caution.
+To request merges into the unstable/main branch, please make a pull request.  
 To request additions into this branch, make a pull request comparing this branch and your local branch.
