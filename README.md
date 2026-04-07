@@ -1,4 +1,3 @@
-## Unstable Branch
-This branch contains unstable code, such as the latest bugfixes, features, etc. Most fixes will be merged into main almost immediately, but regardless, use with caution.
-To request merges into the main branch, please make a pull request.  
-To request additions into this branch, make a pull request comparing this branch and your local branch.
+# Kernel
+This is a custom kernel that I am writing to get a better sense of C and low level programming.  
+If you'd like to contribute drivers, etc, please make a pull request and I'll be happy to check it out.  
