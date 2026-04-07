@@ -1,4 +1,5 @@
 #include "keyboard.h"
+#include "syscall.h"
 
 static char     stdin_buffer[STDIN_BUFFER_SIZE];
 static uint8_t  stdin_buffer_head = 0;
@@ -51,7 +52,7 @@ static char _stdin_buffer_pop(void) {
 }
 
 
-static char scancode_to_ascii(uint8_t scancode) {
+char scancode_to_ascii(uint8_t scancode) {
     if (scancode & SCANCODE_RELEASE_MASK)
         return 0;
 
@@ -63,7 +64,6 @@ static char scancode_to_ascii(uint8_t scancode) {
                      : scancode_table_lower[scancode];
 }
 
-extern void terminal_writestring(const char* data);
 static void ps2_stdin_isr(interrupt_frame_t* frame) {
     (void)frame;
     uint8_t scancode = inb(PS2_DATA_PORT);
@@ -159,4 +159,12 @@ int readline(char* buf, size_t max) {
     
     buf[count] = '\0';
     return count;
+}
+
+size_t strlen(const char* str) 
+{
+	size_t len = 0;
+	while (str[len])
+		len++;
+	return len;
 }

@@ -35,9 +35,7 @@ enum vga_color {
 	VGA_COLOR_WHITE = 15,
 };
 
-inline __attribute__((always_inline)) uint16_t _calculate_vga_cursor_pos(uint8_t row, uint8_t column) {
-	return (row*80)+column;
-}
+#define _CALCULATE_CURSOR_POS(row, col) (row*80)+col
 
 static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) 
 {
@@ -63,8 +61,8 @@ void _put_backspace(uint8_t color, size_t x, size_t y);
 
 void terminal_putchar(char c);
 
-void terminal_write(const char* data, size_t size);
+int terminal_write(const char* data, size_t size);
 
 void terminal_writestring(const char* data);
 
-#endif /* VIDEO_H */
+#endif // VIDEO_H
